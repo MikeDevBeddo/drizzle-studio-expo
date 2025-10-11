@@ -26,15 +26,15 @@
         "src"
     ],
     "license": "MIT",
-    "dependencies": {
-        "expo-sqlite": "^16.0.8"
-    },
+    "dependencies": {},
     "devDependencies": {
         "expo": "~54.0.9",
         "expo-module-scripts": "^5.0.7",
-        "typescript": "^5.9.2"
+        "typescript": "^5.9.2",
+        "expo-sqlite": "^16.0.8"
     },
     "peerDependencies": {
-        "expo": "^53.0.5"
+        "expo": ">=53.0.5",
+        "expo-sqlite": ">=15.2.9"
     }
 }
