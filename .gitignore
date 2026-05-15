@@ -5,8 +5,12 @@ node_modules/
 
 # Expo
 .expo/
-dist/
 web-build/
+
+# Transient webui export dir (build-webui.js renames it to /dist).
+# The root /dist/ is committed so the plugin is installable straight
+# from git without a build step.
+webui/dist/
 
 # Native
 *.orig.*

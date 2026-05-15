@@ -11,7 +11,7 @@
         "pack": "npm pack",
         "lint": "expo-module lint",
         "test": "expo-module test",
-        "prepare": "expo-module prepare && node ./scripts/build-webui.js",
+        "build:all": "expo-module prepare && node ./scripts/build-webui.js",
         "prepublishOnly": "expo-module prepublishOnly",
         "expo-module": "expo-module"
     },
