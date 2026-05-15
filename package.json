@@ -28,10 +28,10 @@
     "license": "MIT",
     "dependencies": {},
     "devDependencies": {
-        "expo": "~54.0.9",
+        "expo": "~54.0.31",
         "expo-module-scripts": "^5.0.7",
         "typescript": "^5.9.2",
-        "expo-sqlite": "^16.0.8"
+        "expo-sqlite": "~16.0.10"
     },
     "peerDependencies": {
         "expo": ">=53.0.5",
