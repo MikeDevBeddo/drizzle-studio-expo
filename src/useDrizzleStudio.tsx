@@ -6,8 +6,6 @@ import {
 } from 'expo/devtools';
 import { useEffect, useRef } from 'react';
 
-const TAG = '[drizzle-studio-plugin]';
-
 /** Channel the device uses to mirror its activity to the webui debug panel. */
 export const DEBUG_CHANNEL = 'drizzle-studio-debug';
 
@@ -24,17 +22,16 @@ interface TransactionEvent {
 }
 
 /**
- * Mirror an event to the Metro console and to the webui (so the in-page
- * debug panel can show the device <-> studio traffic). Best-effort.
+ * Mirror an event to the webui debug panel. Best-effort, and deliberately
+ * NOT logged to the Metro console — that would spam the terminal on every
+ * studio query. Open the debug panel in the studio page to watch traffic.
  */
 function emitDebug(
   client: DevToolsPluginClient,
   entry: Record<string, unknown>,
 ): void {
-  const payload = { t: Date.now(), ...entry };
-  console.log(TAG, JSON.stringify(payload));
   try {
-    client.sendMessage(DEBUG_CHANNEL, payload);
+    client.sendMessage(DEBUG_CHANNEL, { t: Date.now(), ...entry });
   } catch {
     // the debug channel is purely diagnostic — never let it throw
   }
