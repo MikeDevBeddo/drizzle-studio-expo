@@ -66,10 +66,33 @@ export default function App() {
         if (!customElements.get("drizzle-studio")) {
             new Function(StudioScript as string)();
         }
-        if (studioRef.current) {
-            studioRef.current.dbHash = client.connectionInfo.devServer;
-            studioRef.current.client = client;
-        }
+
+        // `customElements.define` only *enqueues* the upgrade of the already
+        // rendered <drizzle-studio> element — the upgrade runs on a later
+        // microtask. Assigning `.client` / `.dbHash` before that upgrade sets
+        // plain own-properties that permanently SHADOW the element's prototype
+        // setters, so the studio's store never receives them and it loaders
+        // forever (drizzle-studio-expo#23). Wait for the definition, force the
+        // upgrade synchronously, *then* assign through the real setters.
+        let cancelled = false;
+        void customElements.whenDefined("drizzle-studio").then(() => {
+            if (cancelled) {
+                return;
+            }
+            const element = studioRef.current;
+            if (!element) {
+                return;
+            }
+            customElements.upgrade(element as unknown as Element);
+            element.dbHash = client.connectionInfo.devServer;
+            element.client = client;
+            console.log("[drizzle-studio-plugin] webui: studio element wired", {
+                devServer: client.connectionInfo.devServer,
+            });
+        });
+        return () => {
+            cancelled = true;
+        };
     }, [client]);
 
     return (
